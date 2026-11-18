@@ -1,0 +1,141 @@
+[
+  {
+    "playlist_id": "java01",
+    "title": "Java + DSA + Interview Preparation — Kunal Kushwaha",
+    "category": "Java / DSA",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ"
+  },
+  {
+    "playlist_id": "dsa01",
+    "title": "A2Z DSA Course — Striver / take U forward",
+    "category": "DSA",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz"
+  },
+
+  {
+    "playlist_id": "backend01",
+    "title": "Backend Engineering — Beginner — Hussein Nasser",
+    "category": "Backend Engineering",
+    "level": "Beginner",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQUNnO4p00ua_C5mKTfldiYT"
+  },
+  {
+    "playlist_id": "backend02",
+    "title": "Backend Engineering — Intermediate — Hussein Nasser",
+    "category": "Backend Engineering",
+    "level": "Intermediate",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQWGuRmwojJ6LiV0ejm6eOcs"
+  },
+  {
+    "playlist_id": "backend03",
+    "title": "Backend Engineering — Advanced — Hussein Nasser",
+    "category": "Backend Engineering",
+    "level": "Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQUybacGRk1b_p13dgI-SmcZ"
+  },
+  {
+    "playlist_id": "backend04",
+    "title": "Backend Engineering From First Principles — Sriniously",
+    "category": "Backend Engineering",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLui3EUkuMTPgZcV0QhQrOcwMPcBCcd_Q1"
+  },
+
+  {
+    "playlist_id": "network01",
+    "title": "Network Engineering — Hussein Nasser",
+    "category": "Networking",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQUBSgBXilKhRMJ1ACqr7pTr"
+  },
+  {
+    "playlist_id": "http01",
+    "title": "HTTP — Hussein Nasser",
+    "category": "Networking / HTTP",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQU6zO0drAYHFtkkyfNJw1IO"
+  },
+
+  {
+    "playlist_id": "database01",
+    "title": "Database Engineering — Hussein Nasser",
+    "category": "Database Engineering",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQXjD0HOzN7P2tgzu7scWpl2"
+  },
+  {
+    "playlist_id": "postgres01",
+    "title": "PostgreSQL — Hussein Nasser",
+    "category": "Database / PostgreSQL",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLQnljOFTspQWGrOqslniFlRcwxyY94cjj"
+  },
+
+  {
+    "playlist_id": "redis01",
+    "title": "Redis Tutorial — ProgrammingKnowledge",
+    "category": "Redis",
+    "level": "Beginner to Intermediate",
+    "url": "https://www.youtube.com/playlist?list=PLS1QulWo1RIYZZxQdap7Sd0ARKFI-XVsd"
+  },
+  {
+    "playlist_id": "redis02",
+    "title": "Redis — Packt",
+    "category": "Redis",
+    "level": "Intermediate",
+    "url": "https://www.youtube.com/playlist?list=PLTgRMOcmRb3Mt3iBO2eosx5vXHeaM92TG"
+  },
+
+  {
+    "playlist_id": "system01",
+    "title": "System Design — Gaurav Sen",
+    "category": "System Design",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX"
+  },
+  {
+    "playlist_id": "system02",
+    "title": "System Design Fundamentals — ByteByteGo",
+    "category": "System Design",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLCRMIe5FDPsd0gVs500xeOewfySTsmEjf"
+  },
+
+  {
+    "playlist_id": "deep01",
+    "title": "Neural Networks: Zero to Hero — Andrej Karpathy",
+    "category": "Deep Learning / LLM Fundamentals",
+    "level": "Beginner to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ"
+  },
+  {
+    "playlist_id": "llm01",
+    "title": "Full Stack LLM Bootcamp — Full Stack Deep Learning",
+    "category": "AI Engineering / LLM",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PL1T8fO7ArWleyIqOy37OVXsP4hFXymdOZ"
+  },
+  {
+    "playlist_id": "rag01",
+    "title": "RAG From Scratch — LangChain",
+    "category": "RAG",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMGQzYqGfKxJ6VvX7R"
+  },
+  {
+    "playlist_id": "fsdl01",
+    "title": "Full Stack Deep Learning — Full Stack Deep Learning",
+    "category": "ML Engineering / MLOps",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PL1T8fO7ArWlcWg04OgNiJy91PywMKT2lv"
+  },
+  {
+    "playlist_id": "mlops01",
+    "title": "MLOps Zoomcamp — DataTalksClub",
+    "category": "MLOps / ML Engineering",
+    "level": "Intermediate to Advanced",
+    "url": "https://www.youtube.com/playlist?list=PL3MmuxUbc_hKZ6D4tW6f5s3eJ4N9rWQ7T"
+  }
+]
