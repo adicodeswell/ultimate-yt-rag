@@ -4,7 +4,6 @@ import { SearchBar } from './SearchBar';
 import { DomainFilter } from './DomainFilter';
 import { ResultsList } from './ResultsList';
 import { VideoPlayer } from './VideoPlayer';
-import { TranscriptViewer } from './TranscriptViewer';
 
 export function KnowledgeExplorer({
   apiBaseUrl = import.meta.env.VITE_KNOWLEDGE_API_URL || 'http://localhost:8000',
@@ -83,11 +82,10 @@ export function KnowledgeExplorer({
           </div>
         </section>
 
-        {/* Right Column: Player & Excerpt */}
+        {/* Right Column: Player */}
         <section className="lg:col-span-7 space-y-4 lg:sticky lg:top-6">
-          <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 space-y-4">
+          <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4">
             <VideoPlayer item={selectedResult} />
-            <TranscriptViewer item={selectedResult} />
           </div>
         </section>
       </div>

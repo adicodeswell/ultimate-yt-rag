@@ -20,6 +20,21 @@ def format_time(seconds: float) -> str:
     return f"{minutes:02d}:{rem:02d}"
 
 
+def merge_texts(text1: str, text2: str) -> str:
+    """Seamlessly stitches two overlapping transcript excerpts into one unbroken block."""
+    words1 = text1.split()
+    words2 = text2.split()
+    max_check = min(len(words1), len(words2), 35)
+    best_overlap = 0
+    for k in range(max_check, 2, -1):
+        if [w.lower() for w in words1[-k:]] == [w.lower() for w in words2[:k]]:
+            best_overlap = k
+            break
+    if best_overlap > 0:
+        return " ".join(words1 + words2[best_overlap:])
+    return text1 + " " + text2
+
+
 class SearchEngine:
     def __init__(self):
         logger.info("Initializing Qdrant client...")
@@ -111,15 +126,15 @@ class SearchEngine:
         if not candidates:
             return []
 
-        # 5. Cross-encoder Reranking
+        # 5. Cross-encoder Reranking with title-enriched pairs
         pairs = [
-            [query, point.payload.get("text", "")]
+            [query, f"{point.payload.get('title', '')} | {point.payload.get('text', '')}"]
             for point in candidates
         ]
 
         scores = self.reranker.predict(
             pairs,
-            batch_size=8,
+            batch_size=16,
             show_progress_bar=False
         )
 
@@ -129,38 +144,70 @@ class SearchEngine:
             reverse=True
         )
 
-        # 6. Map to agreed SearchResultItem schema
-        results: List[SearchResultItem] = []
-        for rank, (point, _score) in enumerate(ranked[:limit], start=1):
+        # 6. Dynamic contiguous topic cluster merging
+        # Fuses overlapping/adjacent segments from the same video into a unified continuous concept
+        clusters = []
+        for point, score in ranked:
             payload = point.payload or {}
             timestamp = payload.get("timestamp") or {}
-
-            chunk_id = str(payload.get("chunk_id") or point.id)
-            video_id = str(payload.get("video_id") or "")
-            title = str(payload.get("title") or "Untitled")
-
             start_sec = float(timestamp.get("start", 0.0))
             end_sec = float(timestamp.get("end", 0.0))
+            video_id = str(payload.get("video_id") or "")
+            text = str(payload.get("text") or "")
 
-            start_formatted = timestamp.get("start_formatted") or format_time(start_sec)
-            end_formatted = timestamp.get("end_formatted") or format_time(end_sec)
+            merged = False
+            for c in clusters:
+                if c["video_id"] == video_id:
+                    # Check if contiguous or overlapping (tolerance: 45 seconds)
+                    if not (end_sec < c["start"] - 45 or start_sec > c["end"] + 45):
+                        if start_sec < c["start"]:
+                            c["text"] = merge_texts(text, c["text"])
+                            c["start"] = start_sec
+                        else:
+                            c["text"] = merge_texts(c["text"], text)
+                            c["end"] = max(c["end"], end_sec)
+                        c["score"] = max(c["score"], score)
+                        merged = True
+                        break
 
-            # Build canonical watch URL
-            video_url = payload.get("url")
+            if not merged:
+                clusters.append({
+                    "id": str(payload.get("chunk_id") or point.id),
+                    "video_id": video_id,
+                    "title": str(payload.get("title") or "Untitled"),
+                    "start": start_sec,
+                    "end": end_sec,
+                    "text": text,
+                    "score": score,
+                    "domains": payload.get("domains") or [],
+                    "url": payload.get("url")
+                })
+
+        # Sort merged clusters by highest cross-encoder relevance score
+        clusters.sort(key=lambda c: c["score"], reverse=True)
+
+        # 7. Map to agreed SearchResultItem schema
+        results: List[SearchResultItem] = []
+        for rank, c in enumerate(clusters[:limit], start=1):
+            start_sec = c["start"]
+            end_sec = c["end"]
+            start_formatted = format_time(start_sec)
+            end_formatted = format_time(end_sec)
+            video_id = c["video_id"]
+
+            video_url = c["url"]
             if not video_url and video_id:
                 video_url = f"https://www.youtube.com/watch?v={video_id}&t={int(start_sec)}s"
 
-            domains = payload.get("domains") or []
+            domains = c["domains"]
             if isinstance(domains, str):
                 domains = [domains]
 
-            text = str(payload.get("text") or "")
-
             results.append(
                 SearchResultItem(
-                    id=chunk_id,
+                    id=c["id"],
                     rank=rank,
-                    title=title,
+                    title=c["title"],
                     video_id=video_id,
                     video_url=str(video_url),
                     start=start_sec,
@@ -168,7 +215,7 @@ class SearchEngine:
                     start_formatted=start_formatted,
                     end_formatted=end_formatted,
                     domains=list(domains),
-                    text=text
+                    text=c["text"]
                 )
             )
 

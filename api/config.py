@@ -14,7 +14,7 @@ class Settings:
     SPARSE_MODEL_NAME: str = "Qdrant/bm25"
     RERANKER_MODEL_NAME: str = "BAAI/bge-reranker-base"
 
-    CANDIDATE_LIMIT: int = 20
+    CANDIDATE_LIMIT: int = 60
     DEFAULT_LIMIT: int = 5
     MAX_LIMIT: int = 10
 

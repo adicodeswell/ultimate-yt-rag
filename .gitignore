@@ -8,9 +8,18 @@ wheels/
 
 # Virtual environments
 .venv
+.venv/
 
 .env
-.venv/
-__pycache__/
 qdrant_data/
 data
+
+# Frontend artifacts
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.log
+.DS_Store
+.env.local
+.env.*.local

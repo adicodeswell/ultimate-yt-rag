@@ -52,7 +52,7 @@ def get_referenced_sources(answer, sources):
     """Return only sources whose IDs appear in the answer."""
 
     referenced_ids = set(
-        re.findall(r"\[(S\d+)\]", answer)
+        re.findall(r"(?:\[|【)(S\d+)(?:\]|】)", answer)
     )
 
     return {
