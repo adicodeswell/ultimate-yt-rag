@@ -23,7 +23,19 @@ print("Loading sparse model...")
 sparse_model = SparseTextEmbedding(model_name="Qdrant/bm25")
 
 
-def retrieve(query, limit=5):
+def retrieve(query, limit=5, domain=None):
+
+    # Optional domain filter
+    query_filter = None
+    if domain and domain.strip().lower() != "all":
+        query_filter = models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="domains",
+                    match=models.MatchValue(value=domain.strip().lower())
+                )
+            ]
+        )
 
     # Dense query embedding
     dense_vector = dense_model.encode(
@@ -36,30 +48,31 @@ def retrieve(query, limit=5):
         iter(sparse_model.query_embed([query]))
     )
 
+    prefetch_dense = models.Prefetch(
+        query=dense_vector,
+        using="dense",
+        limit=20
+    )
+    prefetch_sparse = models.Prefetch(
+        query=models.SparseVector(
+            indices=sparse_vector.indices.tolist(),
+            values=sparse_vector.values.tolist()
+        ),
+        using="sparse",
+        limit=20
+    )
+
+    if query_filter:
+        prefetch_dense.filter = query_filter
+        prefetch_sparse.filter = query_filter
+
     # Hybrid search with Reciprocal Rank Fusion
     response = client.query_points(
         collection_name=COLLECTION,
-
-        prefetch=[
-            models.Prefetch(
-                query=dense_vector,
-                using="dense",
-                limit=20
-            ),
-            models.Prefetch(
-                query=models.SparseVector(
-                    indices=sparse_vector.indices.tolist(),
-                    values=sparse_vector.values.tolist()
-                ),
-                using="sparse",
-                limit=20
-            )
-        ],
-
+        prefetch=[prefetch_dense, prefetch_sparse],
         query=models.FusionQuery(
             fusion=models.Fusion.RRF
         ),
-
         limit=limit,
         with_payload=True
     )
